@@ -5,16 +5,19 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    public GameObject playerCamera;
+
     public float speedScale = 0;
     public float knockX = 0;
     public float knockZ = 0;
-    public float knockScale = 1;
+    public float knockScale = 100.0f;
 
     private Rigidbody rb;
-    private float movementX;
-    private float movementY;
 
     private bool knock = false;
+
+    public float mouseDistance = 0.0f;
+    public bool mouseTracking = false;
 
     [ContextMenu ("Knock Ball")]
     public void doKnock()
@@ -29,13 +32,6 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    void OnMove(InputValue movementValue)
-    {
-        Vector2 movementVector = movementValue.Get<Vector2>();
-        movementX = movementVector.x;
-        movementY = movementVector.y;
-    }
-
     private void Update()
     {
         if (knock)
@@ -43,13 +39,28 @@ public class PlayerController : MonoBehaviour
             Knock();
             knock = false;
         }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            mouseTracking = true;
+            mouseDistance = 0;
+        }
+
+        if (mouseTracking)
+        {
+            mouseDistance += Input.GetAxis("Mouse Y");
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                CameraKnock();
+
+                mouseTracking = false;
+            }
+        }
     }
 
     void FixedUpdate()
     {
-        Vector3 movement = new Vector3 (movementX, 0.0f, movementY);
-        rb.AddForce(movement * speedScale);
-    
 
     }
 
@@ -58,6 +69,13 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 knockMove = new Vector3(knockX, 0.0f, knockZ);
         rb.AddForce(knockMove * knockScale, ForceMode.Impulse);
-        //rb.MovePosition(transform.position + knockMove * knockScale * Time.deltaTime);
+    }
+
+    private void CameraKnock()
+    {
+        Vector3 direction = playerCamera.transform.forward;
+        direction.y = 0.0f;
+
+        rb.AddForce(direction * knockScale, ForceMode.Impulse);
     }
 }
