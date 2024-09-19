@@ -6,11 +6,14 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public GameObject playerCamera;
+    public GameManagerScript gameManager;
 
     public float speedScale = 0;
     public float knockX = 0;
     public float knockZ = 0;
     public float knockScale = 100.0f;
+
+    public bool shotMade = false;
 
     private Rigidbody rb;
 
@@ -40,21 +43,28 @@ public class PlayerController : MonoBehaviour
             knock = false;
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (!gameManager.AnyBallsMoving())
         {
-            mouseTracking = true;
-            mouseDistance = 0;
-        }
-
-        if (mouseTracking)
-        {
-            mouseDistance += Input.GetAxis("Mouse Y");
-
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonDown(0))
             {
-                CameraKnock();
+                mouseTracking = true;
+                mouseDistance = 0;
+            }
 
-                mouseTracking = false;
+            if (mouseTracking)
+            {
+                mouseDistance += Input.GetAxis("Mouse Y");
+
+                if (Input.GetMouseButtonUp(0))
+                {
+                    if (!gameManager.AnyBallsMoving())
+                    {
+                        CameraKnock();
+                        shotMade = true;
+                    }
+
+                    mouseTracking = false;
+                }
             }
         }
     }
