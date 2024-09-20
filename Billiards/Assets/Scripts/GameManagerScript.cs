@@ -23,7 +23,7 @@ public class GameManagerScript : MonoBehaviour
 
     private const float turnTimer = 30.0f;
     private float timeSinceTurn = 0.0f;
-    private bool isPlayerTurnActive = false;
+    public bool isPlayerTurnActive = false;
 
 
     // Start is called before the first frame update
@@ -48,17 +48,24 @@ public class GameManagerScript : MonoBehaviour
             if (!AnyBallsMoving())
                 timeSinceTurn += Time.deltaTime;
 
-            if (!AnyBallsMoving() && playerController.shotMade)
+            if (AnyBallsMoving() && playerController.shotMade)
             {
                 Debug.Log("changing turn from player shoot");
                 //TOFIX: turn ends even if balls are moving on screen
-                EndTurn();
-                playerController.shotMade = false;
+                isPlayerTurnActive = false;
             }
 
             else if (!AnyBallsMoving() && timeSinceTurn > turnTimer)
             {
                 EndTurn();
+            }
+        }
+        else
+        {
+            if (!AnyBallsMoving())
+            {
+                EndTurn();
+                playerController.shotMade = false;
             }
         }
     }
@@ -102,8 +109,8 @@ public class GameManagerScript : MonoBehaviour
         Debug.Log("switching players...");
 
         StartTurn();
-
     }
+
     private bool BallMoving(GameObject ball)
     {
         if (ball != null)

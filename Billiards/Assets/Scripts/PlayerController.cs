@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -57,12 +58,18 @@ public class PlayerController : MonoBehaviour
 
                 if (Input.GetMouseButtonUp(0))
                 {
-                    if (!gameManager.AnyBallsMoving())
+                    //dont allow 'backwards' shots
+                    if (mouseDistance < 0)
                     {
-                        CameraKnock();
-                        shotMade = true;
+                        if (!gameManager.AnyBallsMoving())
+                        {
+                            CameraKnock();
+                            shotMade = true;
+                        }
                     }
 
+
+                    Debug.Log($"{mouseDistance} knock");
                     mouseTracking = false;
                 }
             }
@@ -86,6 +93,6 @@ public class PlayerController : MonoBehaviour
         Vector3 direction = playerCamera.transform.forward;
         direction.y = 0.0f;
 
-        rb.AddForce(direction * knockScale, ForceMode.Impulse);
+        rb.AddForce(direction * -mouseDistance, ForceMode.Impulse);
     }
 }
