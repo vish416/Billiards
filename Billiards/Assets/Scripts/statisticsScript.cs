@@ -24,6 +24,8 @@ public class statisticsScript : MonoBehaviour
 	
     public void addWin() 
     {
+        Currency.coins += 50;
+        Currency.updateCoins();
 	wins++;
 	saveStatistics();
 	updateStatisticsUI();
