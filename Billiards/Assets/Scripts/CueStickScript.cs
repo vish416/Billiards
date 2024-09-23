@@ -7,8 +7,6 @@ public class CueBallScript : MonoBehaviour
     public PlayerController player;
     public GameManagerScript gameManager;
 
-    public GameObject parent;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +16,11 @@ public class CueBallScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        gameObject.SetActive(gameManager.isPlayerTurnActive);
+        Renderer renderer = GetComponent<Renderer>();
+        if (renderer != null)
+        {
+            renderer.enabled = gameManager.isPlayerTurnActive;
+        }
 
         if (player.mouseTracking)
         {

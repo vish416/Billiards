@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,15 +16,25 @@ public class GameManagerScript : MonoBehaviour
 
     public GameObject cueBall;
     public GameObject eightBall;
+
+    public string stripedPlayer = "";
     public List<GameObject> stripedBalls;
+    public string solidPlayer = "";
     public List<GameObject> solidBalls;
+
     public Text showCurrentPlayer;
     public Text showMovementStatus;
     public Text gameTimer;
+    public Text gameResult;
+
+    public delegate void BallPotEvent(GameObject ball);
+    public BallPotEvent OnBallPot;
 
     private const float turnTimer = 30.0f;
     private float timeSinceTurn = 0.0f;
     public bool isPlayerTurnActive = false;
+    private bool isGameActive = true;
+    public bool ballPotted = false;
 
 
     // Start is called before the first frame update
@@ -40,6 +51,12 @@ public class GameManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //early return if game over
+        if (!isGameActive)
+        {
+            return;
+        }
+
         showMovementStatus.text = AnyBallsMoving().ToString();
         gameTimer.text = timeSinceTurn.ToString();
 
@@ -51,12 +68,12 @@ public class GameManagerScript : MonoBehaviour
             if (AnyBallsMoving() && playerController.shotMade)
             {
                 Debug.Log("changing turn from player shoot");
-                //TOFIX: turn ends even if balls are moving on screen
                 isPlayerTurnActive = false;
             }
 
             else if (!AnyBallsMoving() && timeSinceTurn > turnTimer)
             {
+                Debug.Log("current player ran out of time, swapping player");
                 EndTurn();
             }
         }
@@ -64,7 +81,17 @@ public class GameManagerScript : MonoBehaviour
         {
             if (!AnyBallsMoving())
             {
-                EndTurn();
+                if (!ballPotted)
+                {
+                    Debug.Log("shot made with no ball potted, swapping player");
+                    EndTurn();
+                }
+                else
+                {
+                    timeSinceTurn = 0;
+                    ballPotted = false;
+                    isPlayerTurnActive = true;
+                }
                 playerController.shotMade = false;
             }
         }
@@ -122,5 +149,101 @@ public class GameManagerScript : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public void HandleBallPotted(GameObject ball)
+    {
+        Debug.Log("ball potted" + ball);
+        if (ball == cueBall)
+        {
+            Rigidbody rb = ball.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.velocity = Vector3.zero;
+            }
+            ball.transform.position = new Vector3(3.60999894f, 4.75f, -0.60995698f);
+                
+            rb.velocity = Vector3.zero;
+            
+            return;
+        }
+
+        else if (ball == eightBall)
+        {
+            Debug.Log("eight ball potted");
+            if (currentPlayer == stripedPlayer)
+            {
+                Debug.Log("striped player potted 8ball");
+                if (stripedBalls.Count == 0)
+                {
+                    // win event goes here
+                    gameResult.text = "" + currentPlayer + " wins!";
+                }
+                else
+                {
+                    //lose event goes here
+                    gameResult.text = "" + ((currentPlayer == player1) ? player2 : player1) + " wins!";
+                }
+            }
+            else if (currentPlayer == solidPlayer)
+            {
+                Debug.Log("solid player potted 8ball");
+                if (solidBalls.Count == 0)
+                {
+                    // win event goes here
+                    gameResult.text = "" + currentPlayer + " wins!";
+                }
+                else
+                {
+                    //lose event goes here
+                    gameResult.text = "" + ((currentPlayer == player1) ? player2 : player1) + " wins!";
+                }
+            }
+            else if (currentPlayer != stripedPlayer || currentPlayer != solidPlayer) //edge case where current player pots 8 ball without potting any other ball
+            {
+                //lose event goes here
+                gameResult.text = "" + ((currentPlayer == player1) ? player2 : player1) + " wins!";
+            }
+
+            return;
+        }
+
+        else if (stripedBalls.Contains(ball))
+        {
+            Debug.Log("striped ball potted");
+            if (stripedPlayer == "")
+            {
+                stripedPlayer = currentPlayer;
+                solidPlayer = (currentPlayer == player1) ? player2 : player1;
+                ballPotted = true;
+            }
+            else if (currentPlayer == stripedPlayer)
+            {
+                ballPotted = true;
+            }
+
+            stripedBalls.Remove(ball);
+            Destroy(ball);
+            return;
+        }
+
+        else if (solidBalls.Contains(ball))
+        {
+            Debug.Log("solid ball potted");
+            if (solidPlayer == "")
+            {
+                solidPlayer = currentPlayer;
+                stripedPlayer = (currentPlayer == player1) ? player2 : player1;
+                ballPotted = true;
+            }
+            else if (currentPlayer == solidPlayer)
+            {
+                ballPotted = true;
+            }
+
+            solidBalls.Remove(ball);
+            Destroy(ball);
+            return;
+        }
     }
 }
