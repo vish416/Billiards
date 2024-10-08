@@ -5,7 +5,7 @@ using UnityEngine;
 public class Currency : MonoBehaviour
 {
     public const string Coins = "Coins";
-    public static int coins = 0;
+    public static int coins = 600;
     // Start is called before the first frame update
     void Start()
     {
