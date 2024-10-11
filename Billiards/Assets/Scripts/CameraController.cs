@@ -4,18 +4,23 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public GameObject player;
-    private Vector3 offset;
+    public PlayerController player;
+    public Camera topCamera;
+    public Camera ballCamera;
+
+    private bool onPlayer;
 
     // Start is called before the first frame update
     void Start()
     {
-        offset = transform.position - player.transform.position;
+        
     }
 
     // Update is called once per frame
-    void LateUpdate()
+    void Update()
     {
-        transform.position = player.transform.position + offset;
+        onPlayer = !player.inShootMode;
+        topCamera.enabled = onPlayer;
+        ballCamera.enabled = !onPlayer;
     }
 }
