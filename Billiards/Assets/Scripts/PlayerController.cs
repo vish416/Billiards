@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     public GameObject playerCamera;
     public GameManagerScript gameManager;
 
+    public bool inShootMode = false;
+
     public float speedScale = 0;
     public float knockX = 0;
     public float knockZ = 0;
@@ -20,6 +22,7 @@ public class PlayerController : MonoBehaviour
 
     private bool knock = false;
 
+    public const float MAX_POWER = 200.0f;
     public float mouseDistance = 0.0f;
     public bool mouseTracking = false;
 
@@ -44,17 +47,24 @@ public class PlayerController : MonoBehaviour
             knock = false;
         }
 
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            mouseDistance = 0;
+            mouseTracking = false;
+            inShootMode = !inShootMode;
+        }
+
         if (!gameManager.AnyBallsMoving())
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && inShootMode)
             {
                 mouseTracking = true;
-                mouseDistance = 0;
             }
 
             if (mouseTracking)
             {
                 mouseDistance += Input.GetAxis("Mouse Y");
+                mouseDistance = Mathf.Clamp(mouseDistance, -MAX_POWER, 0.0f);
 
                 if (Input.GetMouseButtonUp(0))
                 {
@@ -68,19 +78,13 @@ public class PlayerController : MonoBehaviour
                         }
                     }
 
-
                     Debug.Log($"{mouseDistance} knock");
                     mouseTracking = false;
+                    mouseDistance = 0.0f;
                 }
             }
         }
     }
-
-    void FixedUpdate()
-    {
-
-    }
-
 
     private void Knock()
     {
