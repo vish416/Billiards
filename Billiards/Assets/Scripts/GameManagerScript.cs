@@ -7,12 +7,13 @@ using UnityEngine.UI;
 public class GameManagerScript : MonoBehaviour
 {
 
-    public string player1 = "Player 1";
+    public string player1 = "PPPPPlayer 1";
     public string player2 = "Player 2";
 
     public string currentPlayer;
 
     public PlayerController playerController;
+    public BallDisplayScript ballDisplay;
 
     public GameObject cueBall;
     public GameObject eightBall;
@@ -22,20 +23,16 @@ public class GameManagerScript : MonoBehaviour
     public string solidPlayer = "";
     public List<GameObject> solidBalls;
 
-    public Text showCurrentPlayer;
-    public Text showMovementStatus;
-    public Text gameTimer;
     public Text gameResult;
 
     public delegate void BallPotEvent(GameObject ball);
     public BallPotEvent OnBallPot;
 
-    private const float turnTimer = 30.0f;
+    private const float MAX_TURN_TIME = 30.0f;
     private float timeSinceTurn = 0.0f;
     public bool isPlayerTurnActive = false;
     private bool isGameActive = true;
     public bool ballPotted = false;
-
 
     // Start is called before the first frame update
     void Start()
@@ -57,8 +54,7 @@ public class GameManagerScript : MonoBehaviour
             return;
         }
 
-        showMovementStatus.text = AnyBallsMoving().ToString();
-        gameTimer.text = timeSinceTurn.ToString();
+        ballDisplay.SetBallList(GetActiveBalls());
 
         if (isPlayerTurnActive)
         {
@@ -71,7 +67,7 @@ public class GameManagerScript : MonoBehaviour
                 isPlayerTurnActive = false;
             }
 
-            else if (!AnyBallsMoving() && timeSinceTurn > turnTimer)
+            else if (!AnyBallsMoving() && timeSinceTurn > MAX_TURN_TIME)
             {
                 Debug.Log("current player ran out of time, swapping player");
                 EndTurn();
@@ -97,6 +93,11 @@ public class GameManagerScript : MonoBehaviour
         }
     }
 
+    // For turn timer progress bar:
+    public float GetTurnRatio()
+    {
+        return timeSinceTurn / MAX_TURN_TIME;
+    }
     public bool AnyBallsMoving()
     {
         if (BallMoving(cueBall))
@@ -122,8 +123,9 @@ public class GameManagerScript : MonoBehaviour
 
     private void StartTurn()
     {
+        ballDisplay.SetBallList(GetActiveBalls());
+
         Debug.Log($"starting turn for {currentPlayer}");
-        showCurrentPlayer.text = "" + currentPlayer;
         timeSinceTurn = 0.0f;
         isPlayerTurnActive = true;
     }
@@ -244,6 +246,38 @@ public class GameManagerScript : MonoBehaviour
             solidBalls.Remove(ball);
             Destroy(ball);
             return;
+        }
+    }
+
+    public List<GameObject> GetActiveBalls()
+    {
+        //check if either player 'owns' solid/stripes
+        if (stripedPlayer == "")
+        {
+            return new List<GameObject>();
+        }
+
+        if (currentPlayer == stripedPlayer)
+        {
+            if (stripedBalls.Count == 0)
+            {
+                return new List<GameObject> { eightBall }; ;
+            }
+            else 
+            {
+                return stripedBalls;
+            }
+        }
+        else
+        {
+            if (solidBalls.Count == 0)
+            {
+                return new List<GameObject> { eightBall }; ;
+            }
+            else
+            {
+                return solidBalls;
+            }
         }
     }
 }
