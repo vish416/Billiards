@@ -13,6 +13,7 @@ public class GameManagerScript : MonoBehaviour
     public string currentPlayer;
 
     public PlayerController playerController;
+    public BallDisplayScript ballDisplay;
 
     public GameObject cueBall;
     public GameObject eightBall;
@@ -52,6 +53,8 @@ public class GameManagerScript : MonoBehaviour
         {
             return;
         }
+
+        ballDisplay.SetBallList(GetActiveBalls());
 
         if (isPlayerTurnActive)
         {
@@ -120,6 +123,8 @@ public class GameManagerScript : MonoBehaviour
 
     private void StartTurn()
     {
+        ballDisplay.SetBallList(GetActiveBalls());
+
         Debug.Log($"starting turn for {currentPlayer}");
         timeSinceTurn = 0.0f;
         isPlayerTurnActive = true;
@@ -241,6 +246,38 @@ public class GameManagerScript : MonoBehaviour
             solidBalls.Remove(ball);
             Destroy(ball);
             return;
+        }
+    }
+
+    public List<GameObject> GetActiveBalls()
+    {
+        //check if either player 'owns' solid/stripes
+        if (stripedPlayer == "")
+        {
+            return new List<GameObject>();
+        }
+
+        if (currentPlayer == stripedPlayer)
+        {
+            if (stripedBalls.Count == 0)
+            {
+                return new List<GameObject> { eightBall }; ;
+            }
+            else 
+            {
+                return stripedBalls;
+            }
+        }
+        else
+        {
+            if (solidBalls.Count == 0)
+            {
+                return new List<GameObject> { eightBall }; ;
+            }
+            else
+            {
+                return solidBalls;
+            }
         }
     }
 }
