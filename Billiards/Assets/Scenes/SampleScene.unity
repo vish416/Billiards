@@ -1555,7 +1555,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 2114013049}
-  playerController: {fileID: 0}
+  playerController: {fileID: 2114013056}
   distanceFromPlayer: 10
   sensitivity: 1000
 --- !u!81 &593035447
