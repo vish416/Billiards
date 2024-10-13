@@ -8,7 +8,6 @@ public class UIManagerScript : MonoBehaviour
 {
     public GameManagerScript gameManager;
     public Text gameTimerTextbox;
-    public Text turnTimerTextbox;
     public Text matchupTextbox;
 
     private float gameTimer = 0.0f;
@@ -24,15 +23,8 @@ public class UIManagerScript : MonoBehaviour
     {
         UpdateGameTimer();
         UpdateMatchup();
-        // Turn Timer update handled by Game Manager (using GameManager variables)
     }
 
-    public void UpdateTurnTimer(float time)
-    {
-        int seconds = Mathf.FloorToInt(time);
-
-        turnTimerTextbox.text = "Turn Timer:\n" + seconds.ToString() + "s";
-    }
 
     private void UpdateGameTimer()
     {

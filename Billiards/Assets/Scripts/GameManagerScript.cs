@@ -13,7 +13,6 @@ public class GameManagerScript : MonoBehaviour
     public string currentPlayer;
 
     public PlayerController playerController;
-    public UIManagerScript uiManager;
 
     public GameObject cueBall;
     public GameObject eightBall;
@@ -34,7 +33,6 @@ public class GameManagerScript : MonoBehaviour
     private bool isGameActive = true;
     public bool ballPotted = false;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -54,8 +52,6 @@ public class GameManagerScript : MonoBehaviour
         {
             return;
         }
-
-        uiManager.UpdateTurnTimer(timeSinceTurn);
 
         if (isPlayerTurnActive)
         {
@@ -94,6 +90,11 @@ public class GameManagerScript : MonoBehaviour
         }
     }
 
+    // For turn timer progress bar:
+    public float GetTurnRatio()
+    {
+        return timeSinceTurn / MAX_TURN_TIME;
+    }
     public bool AnyBallsMoving()
     {
         if (BallMoving(cueBall))
