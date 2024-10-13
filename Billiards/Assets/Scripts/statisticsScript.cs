@@ -11,8 +11,8 @@ public class statisticsScript : MonoBehaviour
     public Text loss;
     public Text winLoss;
     
-    private int wins = 0;
-    private int losses = 0;
+    public static int wins = 0;
+    public static int losses = 0;
   
     // Start is called before the first frame update
     void Start()
