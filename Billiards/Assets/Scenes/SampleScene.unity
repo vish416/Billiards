@@ -1095,7 +1095,15 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 974389101}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 0
+--- !u!20 &963194227
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5792c1f7682ff6b488b7944a3393369f, type: 3}
@@ -1135,7 +1143,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 974389101}
+  m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.17608851, y: 4.6815524, z: 0.1214736}
@@ -2496,8 +2504,7 @@ SceneRoots:
   - {fileID: 298878062}
   - {fileID: 152441277}
   - {fileID: 593035449}
-  - {fileID: 1771949552}
-  - {fileID: 452180122}
-  - {fileID: 974389103}
-  - {fileID: 1648793348}
-  - {fileID: 1430608619}
+  - {fileID: 1394110059}
+  - {fileID: 5054528158690327648}
+  - {fileID: 585087345}
+  - {fileID: 1084346845}
