@@ -1,21 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     public GameObject playerCamera;
+    public GameManagerScript gameManager;
+
+    public bool inShootMode = false;
 
     public float speedScale = 0;
     public float knockX = 0;
     public float knockZ = 0;
     public float knockScale = 100.0f;
 
+    public bool shotMade = false;
+
     private Rigidbody rb;
 
     private bool knock = false;
 
+    public const float MAX_POWER = 200.0f;
     public float mouseDistance = 0.0f;
     public bool mouseTracking = false;
 
@@ -40,30 +47,44 @@ public class PlayerController : MonoBehaviour
             knock = false;
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            mouseTracking = true;
             mouseDistance = 0;
+            mouseTracking = false;
+            inShootMode = !inShootMode;
         }
 
-        if (mouseTracking)
+        if (!gameManager.AnyBallsMoving())
         {
-            mouseDistance += Input.GetAxis("Mouse Y");
-
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonDown(0) && inShootMode)
             {
-                CameraKnock();
+                mouseTracking = true;
+            }
 
-                mouseTracking = false;
+            if (mouseTracking)
+            {
+                mouseDistance += Input.GetAxis("Mouse Y");
+                mouseDistance = Mathf.Clamp(mouseDistance, -MAX_POWER, 0.0f);
+
+                if (Input.GetMouseButtonUp(0))
+                {
+                    //dont allow 'backwards' shots
+                    if (mouseDistance < 0)
+                    {
+                        if (!gameManager.AnyBallsMoving())
+                        {
+                            CameraKnock();
+                            shotMade = true;
+                        }
+                    }
+
+                    Debug.Log($"{mouseDistance} knock");
+                    mouseTracking = false;
+                    mouseDistance = 0.0f;
+                }
             }
         }
     }
-
-    void FixedUpdate()
-    {
-
-    }
-
 
     private void Knock()
     {
@@ -76,6 +97,6 @@ public class PlayerController : MonoBehaviour
         Vector3 direction = playerCamera.transform.forward;
         direction.y = 0.0f;
 
-        rb.AddForce(direction * knockScale, ForceMode.Impulse);
+        rb.AddForce(direction * -mouseDistance, ForceMode.Impulse);
     }
 }

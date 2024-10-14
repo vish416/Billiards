@@ -45,11 +45,15 @@ public class statisticsScript : MonoBehaviour
     }
  	
     private void updateStatisticsUI()
-    {
-	win.text = "Win:         " + wins.ToString();
-       loss.text = "Loss:        " + losses.ToString();
-
-	float winLossRatio = losses == 0 ? wins : (float)wins/losses;
-    winLoss.text = "Win/Loss:    " + winLossRatio.ToString("F2");
+    {	
+	if (win != null)
+		win.text = "Win:         " + wins.ToString();
+	if (loss != null)
+       		loss.text = "Loss:        " + losses.ToString();
+	if (winLoss != null)
+	{
+		float winLossRatio = losses == 0 ? wins : (float)wins/losses;
+    		winLoss.text = "Win/Loss:    " + winLossRatio.ToString("F2");
+	}
     }
 }
