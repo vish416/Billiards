@@ -9,10 +9,12 @@ public class Achievements : MonoBehaviour
     public const string FirstPurchase = "FirstPurchase";
     public const string First1000 = "First1000";
     public const string First3Skins = "First3Skins";
+    public const string FirstLoss = "FirstLoss";
     public static int firstWinAchievement = 0;
     public static int firstPurchaseAchievement = 0;
     public static int first1000Achievement = 0;
     public static int first3SkinsAchievement = 0;
+    public static int firstLossAchievement = 0;
     private Purchase purchaseScript;
     // Start is called before the first frame update
     void Start()
@@ -25,6 +27,8 @@ public class Achievements : MonoBehaviour
         UpdateFirst1000Achievement();
         first3SkinsAchievement = PlayerPrefs.GetInt("First3Skins");
         UpdateFirst3SkinsAchievement();
+        first3SkinsAchievement = PlayerPrefs.GetInt("FirstLoss");
+        UpdateFirstLossAchievement();
         purchaseScript = GetComponentInParent<Purchase>();
     }
 
@@ -75,8 +79,8 @@ public class Achievements : MonoBehaviour
     }
 
     public static void UpdateFirst1000Achievement(){
-        PlayerPrefs.SetInt("FirstWin", firstWinAchievement);
-        firstWinAchievement = PlayerPrefs.GetInt("FirstWin");
+        PlayerPrefs.SetInt("First1000", firstWinAchievement);
+        first1000Achievement = PlayerPrefs.GetInt("First1000");
         PlayerPrefs.Save();
     }
 
@@ -99,6 +103,20 @@ public class Achievements : MonoBehaviour
             Currency.coins += 100;
             first3SkinsAchievement = 1;
             UpdateFirst3SkinsAchievement();
+        }
+    }
+
+    public static void UpdateFirstLossAchievement(){
+        PlayerPrefs.SetInt("FirstLoss", firstLossAchievement);
+        firstLossAchievement = PlayerPrefs.GetInt("FirstLoss");
+        PlayerPrefs.Save();
+    }
+
+    public void FirstLossAchieved(){
+        if(statisticsScript.losses == 1){
+            Currency.coins += 100;
+            firstLossAchievement = 1;
+            UpdateFirstLossAchievement();
         }
     }
 }
