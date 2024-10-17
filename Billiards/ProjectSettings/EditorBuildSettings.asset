@@ -20,4 +20,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/AccountCustomisationScene.unity
     guid: 8f7de54e030036e4a96b9639dbdfd9c5
+  - enabled: 1
+    path: Assets/Scenes/Achievements.unity
+    guid: 0325b6ff19f5bc94fbbbf060d5eae94d
+  - enabled: 1
+    path: Assets/Scenes/ItemShop.unity
+    guid: 50aefc4d5b49f7d4682958e00b0ba53e
   m_configObjects: {}
