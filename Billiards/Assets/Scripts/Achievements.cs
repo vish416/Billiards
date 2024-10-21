@@ -30,6 +30,8 @@ public class Achievements : MonoBehaviour
         first3SkinsAchievement = PlayerPrefs.GetInt("FirstLoss");
         UpdateFirstLossAchievement();
         purchaseScript = GetComponentInParent<Purchase>();
+        first3SkinsAchievement = PlayerPrefs.GetInt("First3Skins", 0);
+        UpdateFirst3SkinsAchievement();
     }
 
     // Update is called once per frame
@@ -58,47 +60,46 @@ public class Achievements : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    public void FirstPurchaseAchieved(){
+    public static void FirstPurchaseAchieved(){
         if(Purchase.tablePurchase == 1 && Purchase.cuePurchase == 0 && Purchase.eyePurchase == 0){
             Currency.coins += 100;
             firstPurchaseAchievement = 1;
             UpdateFirstPurchaseAchievement();
         }
-
-        if(Purchase.tablePurchase == 0 && Purchase.cuePurchase == 1 && Purchase.eyePurchase == 0){
+        else if(Purchase.tablePurchase == 0 && Purchase.cuePurchase == 1 && Purchase.eyePurchase == 0){
             Currency.coins += 100;
             firstPurchaseAchievement = 1;
             UpdateFirstPurchaseAchievement();
         }
-
-        if(Purchase.tablePurchase == 0 && Purchase.cuePurchase == 0 && Purchase.eyePurchase == 1){
+        else if(Purchase.tablePurchase == 0 && Purchase.cuePurchase == 0 && Purchase.eyePurchase == 1){
             Currency.coins += 100;
             firstPurchaseAchievement = 1;
             UpdateFirstPurchaseAchievement();
         }
     }
+
 
     public static void UpdateFirst1000Achievement(){
-        PlayerPrefs.SetInt("First1000", firstWinAchievement);
-        first1000Achievement = PlayerPrefs.GetInt("First1000");
+        PlayerPrefs.SetInt("First1000", first1000Achievement);
         PlayerPrefs.Save();
+        Debug.Log($"Achievement unlocked! First3SkinsAchievement: {first1000Achievement}");
     }
 
-    public void First1000Achieved(){
-        if(Currency.coins <= 1000){
-            Currency.coins += 100;
-            firstWinAchievement = 1;
-            UpdateFirst1000Achievement();
-        }
+    public static void First1000Achieved()
+    {       
+        Currency.coins += 100;  // Award coins only once
+        first1000Achievement = 1;
+        UpdateFirst1000Achievement();
+        Debug.Log("First1000 Achievement Unlocked!");
     }
+
 
     public static void UpdateFirst3SkinsAchievement(){
         PlayerPrefs.SetInt("First3Skins", first3SkinsAchievement);
-        first3SkinsAchievement = PlayerPrefs.GetInt("First3Skins");
         PlayerPrefs.Save();
     }
 
-    public void First3SkinsAchieved(){
+    public static void First3SkinsAchieved(){
         if(Purchase.tablePurchase == 1 && Purchase.cuePurchase == 1 && Purchase.eyePurchase == 1){
             Currency.coins += 100;
             first3SkinsAchievement = 1;

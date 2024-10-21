@@ -29,13 +29,15 @@ public class First1000Coins : MonoBehaviour
     void UpdateFirst1000Text()
     {
         string[] temp = text.text.Split('$');
-        if (Achievements.first1000Achievement == 1)
-        {
-            text.text = temp[0] + "Completed";
-        }
-        else
-        {
-            text.text = temp[0] + "$100";
-        }
+    string baseText = temp.Length > 0 ? temp[0] : "";  // Handle cases with no '$' character
+
+    if (Achievements.first1000Achievement == 1)
+    {
+        text.text = baseText + " Completed";  // Ensure no duplication
+    }
+    else
+    {
+        text.text = baseText + " $100";  // Reset to the default text
+    }
     }
 }

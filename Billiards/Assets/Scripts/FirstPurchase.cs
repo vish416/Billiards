@@ -10,11 +10,11 @@ public class FirstPurchase : MonoBehaviour
     private int previousFirstPurchaseState = -1;
     // Start is called before the first frame update
     void Start()
-    {
-        text = GetComponent<Text>();
-        achievements = GetComponentInParent<Achievements>();
-        UpdateFirstPurchaseText();
-    }
+{
+    text = GetComponent<Text>();
+    achievements = GetComponentInParent<Achievements>();
+    UpdateFirstPurchaseText();
+}
 
     // Update is called once per frame
     void Update()
@@ -27,15 +27,20 @@ public class FirstPurchase : MonoBehaviour
     }
 
     void UpdateFirstPurchaseText()
+{
+    // Use only the first part of the string before the '$' symbol
+    string[] temp = text.text.Split('$');
+    string baseText = temp.Length > 0 ? temp[0] : "";  // Handle cases with no '$' character
+
+    if (Achievements.firstPurchaseAchievement == 1)
     {
-        string[] temp = text.text.Split('$');
-        if (Achievements.firstPurchaseAchievement == 1)
-        {
-            text.text = temp[0] + "Completed";
-        }
-        else
-        {
-            text.text = temp[0] + "$100";
-        }
+        text.text = baseText + " Completed";  // Ensure no duplication
     }
+    else
+    {
+        text.text = baseText + " $100";  // Reset to the default text
+    }
+}
+
+
 }

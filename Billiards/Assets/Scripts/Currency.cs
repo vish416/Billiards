@@ -5,7 +5,7 @@ using UnityEngine;
 public class Currency : MonoBehaviour
 {
     public const string Coins = "Coins";
-    public static int coins = 1000;
+    public static int coins = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,5 +22,9 @@ public class Currency : MonoBehaviour
         PlayerPrefs.SetInt("Coins", coins);
         coins = PlayerPrefs.GetInt("Coins");
         PlayerPrefs.Save();
+        if (coins >= 1000 && Achievements.first1000Achievement == 0)
+        {
+            Achievements.First1000Achieved();
+        }
     }
 }
