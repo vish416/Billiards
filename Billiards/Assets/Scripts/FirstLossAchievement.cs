@@ -29,13 +29,15 @@ public class FirstLossAchievement : MonoBehaviour
 void UpdateFirstLossText()
     {
         string[] temp = text.text.Split('$');
+        string baseText = temp.Length > 0 ? temp[0] : "";  // Handle cases with no '$' character
+
         if (Achievements.firstLossAchievement == 1)
         {
-            text.text = temp[0] + "Completed";
+            text.text = baseText + " Completed";
         }
         else
         {
-            text.text = temp[0] + "$100";
+            text.text = baseText + " $100";
         }
     }
 }
