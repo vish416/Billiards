@@ -348,7 +348,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Customise
+  m_Text: 'Item Shop
 
 '
 --- !u!222 &541976926
@@ -1043,6 +1043,8 @@ MonoBehaviour:
   win: {fileID: 0}
   loss: {fileID: 0}
   winLoss: {fileID: 0}
+  wins: 0
+  losses: 0
 --- !u!114 &1028099461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1582,7 +1584,7 @@ GameObject:
   - component: {fileID: 1905843859}
   - component: {fileID: 1905843858}
   m_Layer: 5
-  m_Name: customizeButton
+  m_Name: itemButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

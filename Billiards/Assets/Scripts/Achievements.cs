@@ -16,6 +16,7 @@ public class Achievements : MonoBehaviour
     public static int first3SkinsAchievement = 0;
     public static int firstLossAchievement = 0;
     private Purchase purchaseScript;
+    private statisticsScript statistics;
     // Start is called before the first frame update
     void Start()
     {
@@ -47,7 +48,7 @@ public class Achievements : MonoBehaviour
     }
 
     public void FirstWinAchieved(){
-        if(statisticsScript.wins == 1){
+        if(statistics.wins == 1){
             Currency.coins += 100;
             firstWinAchievement = 1;
             UpdateFirstWinAchievement();
@@ -114,7 +115,7 @@ public class Achievements : MonoBehaviour
     }
 
     public void FirstLossAchieved(){
-        if(statisticsScript.losses == 1){
+        if(statistics.losses == 1){
             Currency.coins += 100;
             firstLossAchievement = 1;
             UpdateFirstLossAchievement();
