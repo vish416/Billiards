@@ -153,7 +153,7 @@ public class GameManagerScript : MonoBehaviour
         return false;
     }
 
-    public void HandleBallPotted(GameObject ball)
+    public void HandleBallPotted(GameObject ball, bool isFoul)
     {
         Debug.Log("ball potted" + ball);
         if (ball == cueBall)
@@ -176,7 +176,7 @@ public class GameManagerScript : MonoBehaviour
             if (currentPlayer == stripedPlayer)
             {
                 Debug.Log("striped player potted 8ball");
-                if (stripedBalls.Count == 0)
+                if (stripedBalls.Count == 0 && !isFoul)
                 {
                     // win event goes here
                     gameResult.text = "" + currentPlayer + " wins!";
@@ -190,7 +190,7 @@ public class GameManagerScript : MonoBehaviour
             else if (currentPlayer == solidPlayer)
             {
                 Debug.Log("solid player potted 8ball");
-                if (solidBalls.Count == 0)
+                if (solidBalls.Count == 0 && !isFoul)
                 {
                     // win event goes here
                     gameResult.text = "" + currentPlayer + " wins!";
@@ -215,11 +215,19 @@ public class GameManagerScript : MonoBehaviour
             Debug.Log("striped ball potted");
             if (stripedPlayer == "")
             {
-                stripedPlayer = currentPlayer;
-                solidPlayer = (currentPlayer == player1) ? player2 : player1;
-                ballPotted = true;
+                if (!isFoul)
+                {
+                    stripedPlayer = currentPlayer;
+                    solidPlayer = (currentPlayer == player1) ? player2 : player1;
+                    ballPotted = true;
+                }
+                else
+                {
+                    stripedPlayer = (currentPlayer == player1) ? player2 : player1;
+                    solidPlayer = currentPlayer;
+                }
             }
-            else if (currentPlayer == stripedPlayer)
+            else if (currentPlayer == stripedPlayer && !isFoul)
             {
                 ballPotted = true;
             }
@@ -234,11 +242,19 @@ public class GameManagerScript : MonoBehaviour
             Debug.Log("solid ball potted");
             if (solidPlayer == "")
             {
-                solidPlayer = currentPlayer;
-                stripedPlayer = (currentPlayer == player1) ? player2 : player1;
-                ballPotted = true;
+                if (!isFoul)
+                {
+                    solidPlayer = currentPlayer;
+                    stripedPlayer = (currentPlayer == player1) ? player2 : player1;
+                    ballPotted = true;
+                }
+                else
+                {
+                    solidPlayer = (currentPlayer == player1) ? player2 : player1;
+                    stripedPlayer = currentPlayer;
+                }
             }
-            else if (currentPlayer == solidPlayer)
+            else if (currentPlayer == solidPlayer && !isFoul)
             {
                 ballPotted = true;
             }
