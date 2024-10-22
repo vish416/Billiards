@@ -31,7 +31,7 @@ public class GameManagerScript : MonoBehaviour
     private const float MAX_TURN_TIME = 30.0f;
     private float timeSinceTurn = 0.0f;
     public bool isPlayerTurnActive = false;
-    private bool isGameActive = true;
+    public bool isGameActive = true;
     public bool ballPotted = false;
 
     // Start is called before the first frame update
@@ -171,6 +171,7 @@ public class GameManagerScript : MonoBehaviour
             {
                 //WEIRD win event goes here
                 gameResult.text = "" + ((currentPlayer == player1) ? player2 : player1) + " wins!";
+                EndGame();
             }
 
             return;
@@ -186,11 +187,13 @@ public class GameManagerScript : MonoBehaviour
                 {
                     // win event goes here
                     gameResult.text = "" + currentPlayer + " wins!";
+                    EndGame();
                 }
                 else
                 {
                     //lose event goes here
                     gameResult.text = "" + ((currentPlayer == player1) ? player2 : player1) + " wins!";
+                    EndGame();
                 }
             }
             else if (currentPlayer == solidPlayer)
@@ -200,17 +203,20 @@ public class GameManagerScript : MonoBehaviour
                 {
                     // win event goes here
                     gameResult.text = "" + currentPlayer + " wins!";
+                    EndGame();
                 }
                 else
                 {
                     //lose event goes here
                     gameResult.text = "" + ((currentPlayer == player1) ? player2 : player1) + " wins!";
+                    EndGame();
                 }
             }
             else if (currentPlayer != stripedPlayer || currentPlayer != solidPlayer) //edge case where current player pots 8 ball without potting any other ball
             {
                 //lose event goes here
                 gameResult.text = "" + ((currentPlayer == player1) ? player2 : player1) + " wins!";
+                EndGame();
             }
 
             Destroy(ball);
@@ -302,5 +308,12 @@ public class GameManagerScript : MonoBehaviour
                 return solidBalls;
             }
         }
+    }
+
+    public void EndGame()
+    {
+        //clear the ball display
+        ballDisplay.SetBallList(new List<GameObject>());
+        isGameActive = false;
     }
 }

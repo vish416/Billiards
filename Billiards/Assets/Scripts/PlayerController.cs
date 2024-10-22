@@ -41,6 +41,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (!gameManager.isGameActive)
+            return;
+
         if (knock)
         {
             Knock();

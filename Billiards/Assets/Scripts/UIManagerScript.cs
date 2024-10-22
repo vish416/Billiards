@@ -21,8 +21,11 @@ public class UIManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateGameTimer();
-        UpdateMatchup();
+        if (gameManager.isGameActive)
+        { 
+            UpdateGameTimer();
+            UpdateMatchup();
+        }
     }
 
 
