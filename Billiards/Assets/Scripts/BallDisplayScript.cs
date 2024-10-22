@@ -1,6 +1,7 @@
 using Newtonsoft.Json.Bson;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,6 +22,11 @@ public class BallDisplayScript : MonoBehaviour
     void Start()
     {
         ballAnchor = origin.rectTransform.anchoredPosition;
+
+        foreach (Image img in ballImages)
+        {
+            img.enabled = false;
+        }
     }
 
     // Update is called once per frame
@@ -31,9 +37,9 @@ public class BallDisplayScript : MonoBehaviour
 
     public void SetBallList(List<GameObject> balls)
     {
-        if (ballObjects != balls)
+        if (ballObjects == null || ballObjects.Count != balls.Count)
         {
-            ballObjects = balls;
+            ballObjects = new List<GameObject>(balls);
             UpdateBallDisplay();
         }
     }

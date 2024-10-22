@@ -43,10 +43,4 @@ public class CueBallScript : MonoBehaviour
         transform.position = cueBall.transform.position + (moveDirection * originalOffset) - (distanceScalar * distance * moveDirection);
     }
 
-    float clampMovement(float distance)
-    {
-
-        return 0.0f;
-    }
-
 }
