@@ -13,9 +13,15 @@ public class Purchase : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        tablePurchase = PlayerPrefs.GetInt("TablePurchase");
-        cuePurchase = PlayerPrefs.GetInt("CuePurchase");
-        eyePurchase = PlayerPrefs.GetInt("EyePurchase");
+        InitializePurchases();
+    }
+
+    // New public method to initialize purchases (for testing and Start)
+    public void InitializePurchases()
+    {
+        tablePurchase = PlayerPrefs.GetInt(TablePurchased);
+        cuePurchase = PlayerPrefs.GetInt(CuePurchased);
+        eyePurchase = PlayerPrefs.GetInt(EyePurchased);
     }
 
     // Update is called once per frame
@@ -47,7 +53,7 @@ public class Purchase : MonoBehaviour
         Achievements.FirstPurchaseAchieved();
         Achievements.First3SkinsAchieved();
     }
-
+    
     public void TablePress(){
         if(Currency.coins >= 500 && tablePurchase == 0){
             Currency.coins -= 500;
