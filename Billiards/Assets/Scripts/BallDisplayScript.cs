@@ -37,7 +37,7 @@ public class BallDisplayScript : MonoBehaviour
 
     public void SetBallList(List<GameObject> balls)
     {
-        if (ballObjects == null || ballObjects.Count != balls.Count)
+        if (ballObjects == null || !AreListsEqual(ballObjects, balls))
         {
             ballObjects = new List<GameObject>(balls);
             UpdateBallDisplay();
@@ -63,5 +63,23 @@ public class BallDisplayScript : MonoBehaviour
                 ballImages[i].sprite = iconSprite;
             }
         }
+    }
+
+    private bool AreListsEqual(List<GameObject> list1, List<GameObject> list2)
+    {
+        if (list1.Count != list2.Count)
+        {
+            return false;
+        }
+
+        // Compare each element (considering the reference or using a custom equality check)
+        for (int i = 0; i < list1.Count; i++)
+        {
+            if (list1[i] != list2[i]) // or use a custom equality method if needed
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }

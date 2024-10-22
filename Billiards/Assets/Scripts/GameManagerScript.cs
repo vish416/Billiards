@@ -167,6 +167,12 @@ public class GameManagerScript : MonoBehaviour
                 
             rb.velocity = Vector3.zero;
             
+            if (eightBall == null) // edge case where cueball is potted after eightball
+            {
+                //WEIRD win event goes here
+                gameResult.text = "" + ((currentPlayer == player1) ? player2 : player1) + " wins!";
+            }
+
             return;
         }
 
@@ -207,6 +213,7 @@ public class GameManagerScript : MonoBehaviour
                 gameResult.text = "" + ((currentPlayer == player1) ? player2 : player1) + " wins!";
             }
 
+            Destroy(ball);
             return;
         }
 
