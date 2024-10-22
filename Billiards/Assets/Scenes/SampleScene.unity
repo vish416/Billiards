@@ -1237,6 +1237,7 @@ MonoBehaviour:
   - {fileID: 218780034}
   gameResult: {fileID: 951683504}
   isPlayerTurnActive: 0
+  isGameActive: 1
   ballPotted: 0
   stats: {fileID: 789643743}
 --- !u!1 &980452804

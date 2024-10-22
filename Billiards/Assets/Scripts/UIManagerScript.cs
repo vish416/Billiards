@@ -18,11 +18,26 @@ public class UIManagerScript : MonoBehaviour
         matchupTextbox.text = gameManager.player1 + " vs " + gameManager.player2;
     }
 
+    //for unit testing
+    public void TestStart()
+    {
+        Start();
+    }
+
     // Update is called once per frame
     void Update()
     {
-        UpdateGameTimer();
-        UpdateMatchup();
+        if (gameManager.isGameActive)
+        { 
+            UpdateGameTimer();
+            UpdateMatchup();
+        }
+    }
+
+    //for unit testing
+    public void TestUpdate()
+    {
+        Update();
     }
 
 

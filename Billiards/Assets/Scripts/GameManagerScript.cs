@@ -33,7 +33,7 @@ public class GameManagerScript : MonoBehaviour
     private const float MAX_TURN_TIME = 30.0f;
     private float timeSinceTurn = 0.0f;
     public bool isPlayerTurnActive = false;
-    private bool isGameActive = true;
+    public bool isGameActive = true;
     public bool ballPotted = false;
 
     public statisticsScript stats;
@@ -175,6 +175,13 @@ public class GameManagerScript : MonoBehaviour
                 
             rb.velocity = Vector3.zero;
             
+            if (eightBall == null) // edge case where cueball is potted after eightball
+            {
+                //WEIRD win event goes here
+                gameResult.text = "" + ((currentPlayer == player1) ? player2 : player1) + " wins!";
+                EndGame();
+            }
+
             return;
         }
 
@@ -188,13 +195,15 @@ public class GameManagerScript : MonoBehaviour
                 {
                     // win event goes here
                     gameResult.text = "" + currentPlayer + " wins!";
-		    HandleGameResult();
+					HandleGameResult();
+                    EndGame();
                 }
                 else
                 {
                     //lose event goes here
                     gameResult.text = "" + ((currentPlayer == player1) ? player2 : player1) + " wins!";
-		    HandleGameResult();
+					HandleGameResult();
+                    EndGame();
                 }
             }
             else if (currentPlayer == solidPlayer)
@@ -204,22 +213,26 @@ public class GameManagerScript : MonoBehaviour
                 {
                     // win event goes here
                     gameResult.text = "" + currentPlayer + " wins!";
-		    HandleGameResult();
+					HandleGameResult();
+                    EndGame();
                 }
                 else
                 {
                     //lose event goes here
                     gameResult.text = "" + ((currentPlayer == player1) ? player2 : player1) + " wins!";
- 		    HandleGameResult();
+					HandleGameResult();
+                    EndGame();
                 }
             }
             else if (currentPlayer != stripedPlayer || currentPlayer != solidPlayer) //edge case where current player pots 8 ball without potting any other ball
             {
                 //lose event goes here
                 gameResult.text = "" + ((currentPlayer == player1) ? player2 : player1) + " wins!";
-		HandleGameResult();
+				HandleGameResult();
+                EndGame();
             }
 
+            Destroy(ball);
             return;
         }
 
@@ -348,5 +361,10 @@ public class GameManagerScript : MonoBehaviour
         {
             Debug.LogError("Error: statisticsScript is not assigned.");
         }
+    public void EndGame()
+    {
+        //clear the ball display
+        ballDisplay.SetBallList(new List<GameObject>());
+        isGameActive = false;
     }
 }
