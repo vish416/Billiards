@@ -982,6 +982,55 @@ MonoBehaviour:
   player: {fileID: 2114013056}
   topCamera: {fileID: 729976011}
   ballCamera: {fileID: 593035448}
+--- !u!1 &789643742
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 789643744}
+  - component: {fileID: 789643743}
+  m_Layer: 0
+  m_Name: StatisticsObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &789643743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 789643742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48f33d8c16d22b3409b60b7a8999e1a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  win: {fileID: 0}
+  loss: {fileID: 0}
+  winLoss: {fileID: 0}
+  wins: 0
+  losses: 0
+--- !u!4 &789643744
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 789643742}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1101.3292, y: 484.7089, z: -5.9068646}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &807501882
 GameObject:
   m_ObjectHideFlags: 0
@@ -1189,6 +1238,7 @@ MonoBehaviour:
   gameResult: {fileID: 951683504}
   isPlayerTurnActive: 0
   ballPotted: 0
+  stats: {fileID: 789643743}
 --- !u!1 &980452804
 GameObject:
   m_ObjectHideFlags: 0
@@ -2704,3 +2754,4 @@ SceneRoots:
   - {fileID: 974389103}
   - {fileID: 1430608619}
   - {fileID: 1648793348}
+  - {fileID: 789643744}

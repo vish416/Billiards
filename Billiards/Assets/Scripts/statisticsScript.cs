@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using PlayFab;
+using PlayFab.ClientModels;
 
 public class statisticsScript : MonoBehaviour
 {
@@ -17,8 +19,14 @@ public class statisticsScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        wins = PlayerPrefs.GetInt("Wins", 0);
-	losses = PlayerPrefs.GetInt("Losses", 0);
+	if (PlayFabClientAPI.IsClientLoggedIn())
+	{
+            loadStatistics();
+	}
+	else
+	{
+	    Debug.Log("Can't load statistics - not logged in");
+	}
 	updateStatisticsUI();
     }
 	
@@ -40,8 +48,40 @@ public class statisticsScript : MonoBehaviour
 
     private void saveStatistics() 
     {
-	PlayerPrefs.SetInt("Wins", wins);
-	PlayerPrefs.SetInt("Losses", losses);
+	var request = new UpdateUserDataRequest 
+	{
+            	Data = new Dictionary<string,string>
+		{
+			{"Wins", wins.ToString()},
+			{"Losses", losses.ToString()}
+		}
+	};
+	PlayFabClientAPI.UpdateUserData(request, OnDataSendSuccess, OnError);
+    }
+
+    private void loadStatistics()
+    {
+	PlayFabClientAPI.GetUserData(new GetUserDataRequest(), OnDataReceived, OnError);
+    }
+
+    private void OnDataSendSuccess(UpdateUserDataResult result)
+    {
+	Debug.Log("Statistics saved");
+    }
+
+    private void OnDataReceived(GetUserDataResult result)
+    {
+	if (result.Data != null && result.Data.ContainsKey("Wins") && result.Data.ContainsKey("Losses"))
+        {
+            wins = int.Parse(result.Data["Wins"].Value);
+            losses = int.Parse(result.Data["Losses"].Value);
+        }
+        updateStatisticsUI();
+    }
+
+    private void OnError(PlayFabError error)
+    {
+        Debug.LogError("Error: " + error.GenerateErrorReport());
     }
  	
     private void updateStatisticsUI()

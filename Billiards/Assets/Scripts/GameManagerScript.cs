@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
+using PlayFab;
+using PlayFab.ClientModels;
 
 public class GameManagerScript : MonoBehaviour
 {
@@ -34,15 +36,21 @@ public class GameManagerScript : MonoBehaviour
     private bool isGameActive = true;
     public bool ballPotted = false;
 
+    public statisticsScript stats;
+
     // Start is called before the first frame update
     void Start()
     {
-        currentPlayer = player1;
-        StartTurn();
-
-
-        Debug.Log(currentPlayer);
-        Debug.Log("starting game");
+	GetDisplayName();
+	if (stats == null)
+        {
+            stats = FindObjectOfType<statisticsScript>(); 
+            if (stats == null)
+            {
+                Debug.LogError("statisticsScript not found! Please assign it in the Inspector.");
+            }
+        }
+        
     }
 
     // Update is called once per frame
@@ -180,11 +188,13 @@ public class GameManagerScript : MonoBehaviour
                 {
                     // win event goes here
                     gameResult.text = "" + currentPlayer + " wins!";
+		    HandleGameResult();
                 }
                 else
                 {
                     //lose event goes here
                     gameResult.text = "" + ((currentPlayer == player1) ? player2 : player1) + " wins!";
+		    HandleGameResult();
                 }
             }
             else if (currentPlayer == solidPlayer)
@@ -194,17 +204,20 @@ public class GameManagerScript : MonoBehaviour
                 {
                     // win event goes here
                     gameResult.text = "" + currentPlayer + " wins!";
+		    HandleGameResult();
                 }
                 else
                 {
                     //lose event goes here
                     gameResult.text = "" + ((currentPlayer == player1) ? player2 : player1) + " wins!";
+ 		    HandleGameResult();
                 }
             }
             else if (currentPlayer != stripedPlayer || currentPlayer != solidPlayer) //edge case where current player pots 8 ball without potting any other ball
             {
                 //lose event goes here
                 gameResult.text = "" + ((currentPlayer == player1) ? player2 : player1) + " wins!";
+		HandleGameResult();
             }
 
             return;
@@ -294,6 +307,46 @@ public class GameManagerScript : MonoBehaviour
             {
                 return solidBalls;
             }
+        }
+    }
+
+    void GetDisplayName()
+    {
+        PlayFabClientAPI.GetAccountInfo(new GetAccountInfoRequest(), (result) => {
+            string currentDisplayName = result.AccountInfo.TitleInfo.DisplayName;
+            player1 = currentDisplayName;
+	    currentPlayer = player1;
+            StartTurn();
+
+
+            Debug.Log(currentPlayer);
+            Debug.Log("starting game");
+        }, OnError);
+    }
+
+    void OnError(PlayFabError error)
+    {
+        Debug.LogError("Error: " + error.GenerateErrorReport());
+    }
+
+    void HandleGameResult()
+    {
+        if (stats != null)  
+        {
+            if (gameResult.text.Contains(player1)) 
+            {
+                stats.addWin();
+                Debug.Log("Win added to stats.");
+            }
+            else  
+            {
+                stats.addLoss();
+                Debug.Log("Loss added to stats.");
+            }
+        }
+        else
+        {
+            Debug.LogError("Error: statisticsScript is not assigned.");
         }
     }
 }
