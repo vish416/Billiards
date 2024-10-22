@@ -83,7 +83,6 @@ public class Achievements : MonoBehaviour
     public static void UpdateFirst1000Achievement(){
         PlayerPrefs.SetInt("First1000", first1000Achievement);
         PlayerPrefs.Save();
-        Debug.Log($"Achievement unlocked! First3SkinsAchievement: {first1000Achievement}");
     }
 
     public static void First1000Achieved()
@@ -91,7 +90,6 @@ public class Achievements : MonoBehaviour
         Currency.coins += 100;  // Award coins only once
         first1000Achievement = 1;
         UpdateFirst1000Achievement();
-        Debug.Log("First1000 Achievement Unlocked!");
     }
 
 

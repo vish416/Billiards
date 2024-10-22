@@ -28,14 +28,16 @@ public class DisplayCue : MonoBehaviour
 
     void UpdateCuePurchaseText()
     {
-        string[] temp = text.text.Split('$');
         if (Purchase.cuePurchase == 1)
+    {
+        if (!text.text.Contains("Purchased")) // Check if "Purchased" is not already in the text
         {
-            text.text = temp[0] + "Purchased";
+            text.text = text.text.Split('$')[0] + "Purchased"; // Only update if not already purchased
         }
-        else
-        {
-            text.text = temp[0] + "$500";
-        }
+    }
+    else
+    {
+        text.text = text.text.Split('$')[0] + "$500"; // Reset to default price if not purchased
+    }
     }
 }
