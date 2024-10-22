@@ -28,18 +28,24 @@ public class Purchase : MonoBehaviour
         PlayerPrefs.SetInt("TablePurchase", tablePurchase);
         tablePurchase = PlayerPrefs.GetInt("TablePurchase");
         PlayerPrefs.Save();
+        Achievements.FirstPurchaseAchieved();
+        Achievements.First3SkinsAchieved();
     }
 
     public static void UpdateCuePurchase(){
         PlayerPrefs.SetInt("CuePurchase", cuePurchase);
         cuePurchase = PlayerPrefs.GetInt("CuePurchase");
         PlayerPrefs.Save();
+        Achievements.FirstPurchaseAchieved();
+        Achievements.First3SkinsAchieved();
     }
 
     public static void UpdateEyePurchase(){
         PlayerPrefs.SetInt("EyePurchase", eyePurchase);
         eyePurchase = PlayerPrefs.GetInt("EyePurchase");
         PlayerPrefs.Save();
+        Achievements.FirstPurchaseAchieved();
+        Achievements.First3SkinsAchieved();
     }
 
     public void TablePress(){
