@@ -48,7 +48,7 @@ public class AccountCustomisation : MonoBehaviour
         PlayFabClientAPI.UpdateUserTitleDisplayName(request, OnDisplayNameUpdateSuccess, OnError);
     }
     
-    void OnDisplayNameUpdateSuccess(UpdateUserTitleDisplayNameResult result)
+    public void OnDisplayNameUpdateSuccess(UpdateUserTitleDisplayNameResult result)
     {
 
         NameText.text = result.DisplayName;

@@ -69,13 +69,13 @@ public class PlayfabManager : MonoBehaviour {
     }
 
 	
-    void OnLoginSuccess(LoginResult result)
+    public void OnLoginSuccess(LoginResult result)
     {
 	messageText.text = "Logged in";
 	Debug.Log("Successful login");
     }
 
-    void OnError(PlayFabError error)
+    public void OnError(PlayFabError error)
     {
         messageText.text = error.ErrorMessage;
 	Debug.Log(error.GenerateErrorReport());
