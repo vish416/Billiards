@@ -361,10 +361,12 @@ public class GameManagerScript : MonoBehaviour
         {
             Debug.LogError("Error: statisticsScript is not assigned.");
         }
-    public void EndGame()
+    }
+    private void EndGame()
     {
         //clear the ball display
         ballDisplay.SetBallList(new List<GameObject>());
         isGameActive = false;
     }
+
 }
